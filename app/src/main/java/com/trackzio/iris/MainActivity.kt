@@ -16,11 +16,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SnapZioTheme {
-                Surface(
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Text("ahh")
-                }
+
             }
         }
     }
