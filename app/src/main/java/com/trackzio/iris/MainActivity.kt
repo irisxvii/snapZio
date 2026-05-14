@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import com.trackzio.iris.ui.theme.SnapZioTheme
+import com.trackzio.iris.ui.weather.WScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +17,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SnapZioTheme {
-
+                WScreen()
             }
         }
     }
