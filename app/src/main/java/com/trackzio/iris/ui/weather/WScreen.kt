@@ -15,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.collectAsState
 
+import androidx.compose.foundation.clickable
+
 @Composable
 fun WScreen() {
     val viewModel: WeatherViewModel = viewModel()
@@ -178,7 +180,14 @@ fun SearchSection(
             cities.forEach { item ->
                 Text(
                     text = "${item.name}, ${item.country}",
-                    color = Color.White
+                    color = Color.White,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                        .clickable {
+                            onCityChange(item.name)
+                            onSearchQueryChange(item.name)
+                        }
                 )
             }
         }
