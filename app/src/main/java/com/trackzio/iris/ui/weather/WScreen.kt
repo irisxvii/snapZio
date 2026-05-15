@@ -12,8 +12,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
 
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+
 @Composable
 fun WScreen() {
+    val viewModel: WeatherViewModel = viewModel()
+
+    val cities by viewModel.cities.collectAsState()
 
     var city by remember {
         mutableStateOf("")
@@ -37,8 +43,12 @@ fun WScreen() {
 
         SearchSection(
             city = city,
+            cities = cities,
             onCityChange = {
                 city = it
+            },
+            onSearchQueryChange = {
+                viewModel.searchCities(it)
             }
         )
     }
@@ -108,7 +118,9 @@ fun HeaderCard() {
 @Composable
 fun SearchSection(
     city: String,
-    onCityChange: (String) -> Unit
+    cities: List<com.trackzio.iris.data.remote.City>,
+    onCityChange: (String) -> Unit,
+    onSearchQueryChange: (String) -> Unit
 ) {
 
     Card(
@@ -131,7 +143,10 @@ fun SearchSection(
 
                 OutlinedTextField(
                     value = city,
-                    onValueChange = onCityChange,
+                    onValueChange = {
+                        onCityChange(it)
+                        onSearchQueryChange(it)
+                    },
                     label = {
                         Text("City")
                     },
@@ -160,6 +175,12 @@ fun SearchSection(
                 color = Color.LightGray,
                 fontSize = 12.sp
             )
+            cities.forEach { item ->
+                Text(
+                    text = "${item.name}, ${item.country}",
+                    color = Color.White
+                )
+            }
         }
     }
 }
