@@ -16,6 +16,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.collectAsState
 
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 
 @Composable
 fun WScreen() {
@@ -24,7 +26,7 @@ fun WScreen() {
     val cities by viewModel.cities.collectAsState()
 
     var city by remember {
-        mutableStateOf("")
+        mutableStateOf(TextFieldValue(""))
     }
 
     Column(
@@ -122,9 +124,9 @@ fun HeaderCard() {
 
 @Composable
 fun SearchSection(
-    city: String,
+    city: TextFieldValue,
     cities: List<com.trackzio.iris.data.remote.City>,
-    onCityChange: (String) -> Unit,
+    onCityChange: (TextFieldValue) -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onClearCities: () -> Unit
 ) {
@@ -151,7 +153,7 @@ fun SearchSection(
                     value = city,
                     onValueChange = {
                         onCityChange(it)
-                        onSearchQueryChange(it)
+                        onSearchQueryChange(it.text)
                     },
                     label = {
                         Text("City")
@@ -189,7 +191,12 @@ fun SearchSection(
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
                         .clickable {
-                            onCityChange(item.name)
+                            onCityChange(
+                                TextFieldValue(
+                                    text = item.name,
+                                    selection = TextRange(item.name.length)
+                                )
+                            )
                             onClearCities()
                         }
                 )
