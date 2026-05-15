@@ -51,6 +51,9 @@ fun WScreen() {
             },
             onSearchQueryChange = {
                 viewModel.searchCities(it)
+            },
+            onClearCities = {
+                viewModel.clearCities()
             }
         )
     }
@@ -122,7 +125,8 @@ fun SearchSection(
     city: String,
     cities: List<com.trackzio.iris.data.remote.City>,
     onCityChange: (String) -> Unit,
-    onSearchQueryChange: (String) -> Unit
+    onSearchQueryChange: (String) -> Unit,
+    onClearCities: () -> Unit
 ) {
 
     Card(
@@ -186,7 +190,7 @@ fun SearchSection(
                         .padding(vertical = 8.dp)
                         .clickable {
                             onCityChange(item.name)
-                            onSearchQueryChange(item.name)
+                            onClearCities()
                         }
                 )
             }

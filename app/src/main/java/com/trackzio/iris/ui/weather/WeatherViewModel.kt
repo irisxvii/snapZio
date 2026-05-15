@@ -15,6 +15,10 @@ class WeatherViewModel : ViewModel() {
 
     val cities: StateFlow<List<City>> = _cities
 
+    fun clearCities() {
+        _cities.value = emptyList()
+    }
+
     fun searchCities(query: String) {
 
         if (query.length < 2) {
