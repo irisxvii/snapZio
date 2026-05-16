@@ -19,6 +19,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 
+import com.trackzio.iris.data.remote.CurrentWeather
+
 @Composable
 fun WScreen() {
     val viewModel: WeatherViewModel = viewModel()
@@ -27,6 +29,12 @@ fun WScreen() {
 
     var city by remember {
         mutableStateOf(TextFieldValue(""))
+    }
+
+    val weather by viewModel.weather.collectAsState()
+
+    var selectedCity by remember {
+        mutableStateOf<com.trackzio.iris.data.remote.City?>(null)
     }
 
     Column(
@@ -56,12 +64,24 @@ fun WScreen() {
             },
             onClearCities = {
                 viewModel.clearCities()
+            },
+            onSearchClick = {
+                selectedCity?.let {
+                    viewModel.fetchWeather(it)
+                }
+            },
+            onCitySelected = {
+                selectedCity = it
             }
         )
-        //EmptyWeatherCard()
-        WeatherCard(
-            cityName = "Durham"
-        )
+        if (weather == null) {
+            EmptyWeatherCard()
+        } else {
+            WeatherCard(
+                cityName = selectedCity?.name ?: city.text,
+                weather = weather!!
+            )
+        }
     }
 }
 
@@ -132,7 +152,9 @@ fun SearchSection(
     cities: List<com.trackzio.iris.data.remote.City>,
     onCityChange: (TextFieldValue) -> Unit,
     onSearchQueryChange: (String) -> Unit,
-    onClearCities: () -> Unit
+    onClearCities: () -> Unit,
+    onSearchClick: () -> Unit,
+    onCitySelected: (com.trackzio.iris.data.remote.City) -> Unit
 ) {
 
     Card(
@@ -167,7 +189,7 @@ fun SearchSection(
                 )
 
                 Button(
-                    onClick = { },
+                    onClick = onSearchClick,
                     modifier = Modifier.height(46.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFFD8E08B)
@@ -195,6 +217,7 @@ fun SearchSection(
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
                         .clickable {
+                            onCitySelected(item)
                             onCityChange(
                                 TextFieldValue(
                                     text = item.name,
@@ -270,7 +293,7 @@ fun EmptyWeatherCard() {
 @Composable
 fun WeatherCard(
     cityName: String,
-    //weather: com.trackzio.iris.data.remote.CurrentWeather
+    weather: CurrentWeather
 ) {
 
     Card(
@@ -341,21 +364,21 @@ fun WeatherCard(
 
                 WeatherInfoCard(
                     title = "Humidity",
-                    value = "94%",
+                    value = "${weather.relative_humidity_2m}%",
                     accent = Color(0xFF00C853),
                     modifier = Modifier.weight(1f)
                 )
 
                 WeatherInfoCard(
                     title = "Wind",
-                    value = "1.82 m/s",
+                    value = "${weather.wind_speed_10m} m/s",
                     accent = Color(0xFF2196F3),
                     modifier = Modifier.weight(1f)
                 )
 
                 WeatherInfoCard(
                     title = "Pressure",
-                    value = "998",
+                    value = "${weather.pressure_msl}",
                     accent = Color(0xFFFF9800),
                     modifier = Modifier.weight(1f)
                 )
