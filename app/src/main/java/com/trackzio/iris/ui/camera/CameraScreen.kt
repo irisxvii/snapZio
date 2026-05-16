@@ -24,10 +24,15 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.LaunchedEffect
 
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import java.io.File
+import androidx.compose.runtime.*
+
 @Composable
 fun CameraScreen(
     onClose: () -> Unit,
-    onCapture: () -> Unit
+    onCapture: (String) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -75,8 +80,12 @@ fun CameraScreen(
             }
         }
 
-        val context = LocalContext.current
         val lifecycleOwner = LocalLifecycleOwner.current
+
+        val imageCapture = remember {
+            androidx.camera.core.ImageCapture.Builder()
+                .build()
+        }
 
         AndroidView(
             modifier = Modifier
@@ -107,7 +116,8 @@ fun CameraScreen(
                         cameraProvider.bindToLifecycle(
                             lifecycleOwner,
                             cameraSelector,
-                            preview
+                            preview,
+                            imageCapture
                         )
 
                     } catch (e: Exception) {
@@ -121,7 +131,37 @@ fun CameraScreen(
         )
 
         Button(
-            onClick = onCapture,
+            onClick = {
+                val photoFile = File(
+                    context.cacheDir,
+                    "weather_${System.currentTimeMillis()}.jpg"
+                )
+
+                val outputOptions =
+                    ImageCapture.OutputFileOptions.Builder(photoFile)
+                        .build()
+
+                imageCapture.takePicture(
+                    outputOptions,
+                    ContextCompat.getMainExecutor(context),
+
+                    object : ImageCapture.OnImageSavedCallback {
+
+                        override fun onImageSaved(
+                            outputFileResults:
+                            ImageCapture.OutputFileResults
+                        ) {
+                            onCapture(photoFile.absolutePath)
+                        }
+
+                        override fun onError(
+                            exception: ImageCaptureException
+                        ) {
+                            exception.printStackTrace()
+                        }
+                    }
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),

@@ -51,14 +51,19 @@ fun WScreen() {
         mutableStateOf(false)
     }
 
+    var capturedImagePath by remember {
+        mutableStateOf<String?>(null)
+    }
+
     if (showCameraScreen) {
 
         CameraScreen(
             onClose = {
                 showCameraScreen = false
             },
-            onCapture = {
-
+            onCapture = { imagePath ->
+                capturedImagePath = imagePath
+                showCameraScreen = false
             }
         )
 
