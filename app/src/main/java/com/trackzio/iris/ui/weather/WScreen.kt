@@ -78,7 +78,8 @@ fun WScreen() {
             },
             onCapturePhotoClick = {
                 showCameraScreen = true
-            }
+            },
+            imagePath = capturedImagePath
         )
 
     } else {

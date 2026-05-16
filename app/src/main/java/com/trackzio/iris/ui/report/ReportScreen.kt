@@ -15,12 +15,16 @@ import com.trackzio.iris.ui.weather.HeaderCard
 import com.trackzio.iris.ui.weather.WeatherCard
 import com.trackzio.iris.data.remote.CurrentWeather
 
+import coil.compose.AsyncImage
+import java.io.File
+
 @Composable
 fun ReportScreen(
     cityName: String,
     weather: CurrentWeather,
     onBackClick: () -> Unit,
-    onCapturePhotoClick: () -> Unit
+    onCapturePhotoClick: () -> Unit,
+    imagePath: String?
 ) {
     Column(
         modifier = Modifier
@@ -46,6 +50,7 @@ fun ReportScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         PhotoPreviewCard(
+            imagePath = imagePath,
             onCapturePhotoClick = onCapturePhotoClick
         )
 
@@ -77,6 +82,7 @@ fun ReportScreen(
 
 @Composable
 fun PhotoPreviewCard(
+    imagePath: String?,
     onCapturePhotoClick: () -> Unit
 ) {
 
@@ -103,10 +109,19 @@ fun PhotoPreviewCard(
                 contentAlignment = Alignment.Center
             ) {
 
-                Text(
-                    text = "Photo preview",
-                    color = Color.White
-                )
+                if (imagePath != null) {
+                    AsyncImage(
+                        model = File(imagePath),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else {
+
+                    Text(
+                        text = "Photo preview",
+                        color = Color.White
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
