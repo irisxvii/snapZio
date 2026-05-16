@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.trackzio.iris.data.remote.CurrentWeather
 import com.trackzio.iris.ui.camera.CameraScreen
 import com.trackzio.iris.ui.report.ReportScreen
+import com.trackzio.iris.ui.report.SavedReportsScreen
 import com.trackzio.iris.utils.compressImage
 
 import androidx.compose.ui.platform.LocalContext
@@ -118,7 +119,12 @@ fun WScreen() {
     }
 
     else if (showSavedReportsScreen) {
-
+        SavedReportsScreen(
+            reports = emptyList(),
+            onBackClick = {
+                showSavedReportsScreen = false
+            }
+        )
     }
 
     else if (showReportScreen) {
@@ -193,7 +199,9 @@ fun WScreen() {
                 title = "WeatherSnap",
                 subtitle = "Live weather reports with camera evidence",
                 buttonText = "Reports",
-                onButtonClick = { }
+                onButtonClick = {
+                    showSavedReportsScreen = true
+                }
             )
 
             Spacer(modifier = Modifier.height(20.dp))
