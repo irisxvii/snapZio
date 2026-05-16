@@ -18,6 +18,9 @@ import com.trackzio.iris.data.remote.CurrentWeather
 import coil.compose.AsyncImage
 import java.io.File
 
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+
 @Composable
 fun ReportScreen(
     cityName: String,
@@ -36,6 +39,7 @@ fun ReportScreen(
             .fillMaxSize()
             .background(Color(0xFF2D3200))
             .padding(16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
 
         HeaderCard(

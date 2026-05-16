@@ -32,6 +32,7 @@ import com.trackzio.iris.data.local.WeatherReport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun WScreen() {
@@ -91,6 +92,23 @@ fun WScreen() {
         mutableStateOf(false)
     }
 
+    var savedReports by remember {
+        mutableStateOf<List<WeatherReport>>(emptyList())
+    }
+
+    fun loadReports() {
+        CoroutineScope(Dispatchers.IO)
+            .launch {
+                val reports =
+                    database
+                        .reportDao()
+                        .getAllReports()
+                withContext(Dispatchers.Main) {
+                    savedReports = reports
+                }
+            }
+    }
+
     if (showCameraScreen) {
         CameraScreen(
             onClose = {
@@ -120,7 +138,7 @@ fun WScreen() {
 
     else if (showSavedReportsScreen) {
         SavedReportsScreen(
-            reports = emptyList(),
+            reports = savedReports,
             onBackClick = {
                 showSavedReportsScreen = false
             }
@@ -170,13 +188,14 @@ fun WScreen() {
 
                     CoroutineScope(Dispatchers.IO)
                         .launch {
-
                             database
                                 .reportDao()
                                 .insertReport(report)
+                            loadReports()
                         }
 
                     showReportScreen = false
+                    loadReports()
                     showSavedReportsScreen = true
                 }
             }
@@ -200,6 +219,7 @@ fun WScreen() {
                 subtitle = "Live weather reports with camera evidence",
                 buttonText = "Reports",
                 onButtonClick = {
+                    loadReports()
                     showSavedReportsScreen = true
                 }
             )
