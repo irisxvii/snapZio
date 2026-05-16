@@ -28,7 +28,8 @@ fun ReportScreen(
     originalImageSize: Int,
     compressedImageSize: Int,
     notes: String,
-    onNotesChange: (String) -> Unit
+    onNotesChange: (String) -> Unit,
+    onSaveReportClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -70,7 +71,7 @@ fun ReportScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { },
+            onClick = onSaveReportClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),

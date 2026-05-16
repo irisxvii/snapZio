@@ -24,6 +24,14 @@ import com.trackzio.iris.ui.camera.CameraScreen
 import com.trackzio.iris.ui.report.ReportScreen
 import com.trackzio.iris.utils.compressImage
 
+import androidx.compose.ui.platform.LocalContext
+import com.trackzio.iris.data.local.WeatherDatabase
+
+import com.trackzio.iris.data.local.WeatherReport
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 @Composable
 fun WScreen() {
     val viewModel: WeatherViewModel = viewModel()
@@ -72,8 +80,17 @@ fun WScreen() {
         mutableStateOf("")
     }
 
-    if (showCameraScreen) {
+    val context = LocalContext.current
 
+    val database = remember {
+        WeatherDatabase.getDatabase(context)
+    }
+
+    var showSavedReportsScreen by remember {
+        mutableStateOf(false)
+    }
+
+    if (showCameraScreen) {
         CameraScreen(
             onClose = {
                 showCameraScreen = false
@@ -100,6 +117,10 @@ fun WScreen() {
 
     }
 
+    else if (showSavedReportsScreen) {
+
+    }
+
     else if (showReportScreen) {
         ReportScreen(
             cityName = searchedCityName,
@@ -116,6 +137,42 @@ fun WScreen() {
             notes = notes,
             onNotesChange = {
                 notes = it
+            },
+            onSaveReportClick = {
+                if (capturedImagePath != null) {
+                    val report =
+                        WeatherReport(
+                            cityName = searchedCityName,
+                            temperature =
+                                weather!!.temperature_2m,
+                            humidity =
+                                weather!!.relative_humidity_2m,
+                            windSpeed =
+                                weather!!.wind_speed_10m,
+                            pressure =
+                                weather!!.pressure_msl,
+                            imagePath =
+                                capturedImagePath!!,
+                            originalImageSize =
+                                originalImageSize,
+                            compressedImageSize =
+                                compressedImageSize,
+                            notes = notes,
+                            timestamp =
+                                System.currentTimeMillis()
+                        )
+
+                    CoroutineScope(Dispatchers.IO)
+                        .launch {
+
+                            database
+                                .reportDao()
+                                .insertReport(report)
+                        }
+
+                    showReportScreen = false
+                    showSavedReportsScreen = true
+                }
             }
         )
 
