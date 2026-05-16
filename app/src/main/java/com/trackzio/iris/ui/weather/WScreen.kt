@@ -37,6 +37,10 @@ fun WScreen() {
         mutableStateOf<com.trackzio.iris.data.remote.City?>(null)
     }
 
+    var searchedCityName by remember {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,6 +71,7 @@ fun WScreen() {
             },
             onSearchClick = {
                 selectedCity?.let {
+                    searchedCityName = it.name
                     viewModel.fetchWeather(it)
                 }
             },
@@ -78,7 +83,7 @@ fun WScreen() {
             EmptyWeatherCard()
         } else {
             WeatherCard(
-                cityName = selectedCity?.name ?: city.text,
+                cityName = searchedCityName,
                 weather = weather!!
             )
         }
@@ -342,7 +347,7 @@ fun WeatherCard(
                 ) {
 
                     Text(
-                        text = "10°C",
+                        text = "${weather.temperature_2m.toInt()}°C",
                         modifier = Modifier.padding(
                             horizontal = 18.dp,
                             vertical = 14.dp
