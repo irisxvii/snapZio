@@ -55,7 +55,7 @@ fun ReportScreen(
             onClick = { },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
+                .height(50.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFD8E08B)
             ),
@@ -65,7 +65,7 @@ fun ReportScreen(
             Text(
                 text = "Save Report",
                 color = Color.Black,
-                fontSize = 16.sp
+                fontSize = 14.sp
             )
         }
     }
@@ -89,7 +89,7 @@ fun PhotoPreviewCard() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(220.dp)
+                    .height(180.dp)
                     .background(
                         Color(0xFF556B2F),
                         RoundedCornerShape(12.dp)
@@ -146,7 +146,7 @@ fun NotesSection() {
                 fontSize = 16.sp
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
             OutlinedTextField(
                 value = "",
@@ -156,7 +156,7 @@ fun NotesSection() {
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(140.dp)
+                    .height(60.dp)
             )
         }
     }
