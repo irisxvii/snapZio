@@ -138,7 +138,12 @@ fun PhotoPreviewCard(
             ) {
 
                 Text(
-                    text = "Capture Photo",
+                    text =
+                        if (imagePath != null)
+                            "Retake Photo"
+                        else
+                            "Capture Photo",
+
                     color = Color.Black
                 )
             }
