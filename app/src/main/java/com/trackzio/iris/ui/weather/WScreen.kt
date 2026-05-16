@@ -20,6 +20,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 
 import com.trackzio.iris.data.remote.CurrentWeather
+import com.trackzio.iris.ui.camera.CameraScreen
 import com.trackzio.iris.ui.report.ReportScreen
 
 @Composable
@@ -46,12 +47,32 @@ fun WScreen() {
         mutableStateOf(false)
     }
 
-    if (showReportScreen) {
+    var showCameraScreen by remember {
+        mutableStateOf(false)
+    }
+
+    if (showCameraScreen) {
+
+        CameraScreen(
+            onClose = {
+                showCameraScreen = false
+            },
+            onCapture = {
+
+            }
+        )
+
+    }
+
+    else if (showReportScreen) {
         ReportScreen(
             cityName = searchedCityName,
             weather = weather!!,
             onBackClick = {
                 showReportScreen = false
+            },
+            onCapturePhotoClick = {
+                showCameraScreen = true
             }
         )
 

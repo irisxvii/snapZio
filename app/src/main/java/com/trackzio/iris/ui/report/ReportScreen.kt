@@ -19,7 +19,9 @@ import com.trackzio.iris.data.remote.CurrentWeather
 fun ReportScreen(
     cityName: String,
     weather: CurrentWeather,
-    onBackClick: () -> Unit) {
+    onBackClick: () -> Unit,
+    onCapturePhotoClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +45,9 @@ fun ReportScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        PhotoPreviewCard()
+        PhotoPreviewCard(
+            onCapturePhotoClick = onCapturePhotoClick
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -72,7 +76,9 @@ fun ReportScreen(
 }
 
 @Composable
-fun PhotoPreviewCard() {
+fun PhotoPreviewCard(
+    onCapturePhotoClick: () -> Unit
+) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -106,7 +112,7 @@ fun PhotoPreviewCard() {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { },
+                onClick = onCapturePhotoClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
