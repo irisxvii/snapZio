@@ -26,7 +26,9 @@ fun ReportScreen(
     onCapturePhotoClick: () -> Unit,
     imagePath: String?,
     originalImageSize: Int,
-    compressedImageSize: Int
+    compressedImageSize: Int,
+    notes: String,
+    onNotesChange: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -60,7 +62,10 @@ fun ReportScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        NotesSection()
+        NotesSection(
+            notes = notes,
+            onNotesChange = onNotesChange
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -172,8 +177,10 @@ fun PhotoPreviewCard(
 }
 
 @Composable
-fun NotesSection() {
-
+fun NotesSection(
+    notes: String,
+    onNotesChange: (String) -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -195,8 +202,8 @@ fun NotesSection() {
             Spacer(modifier = Modifier.height(5.dp))
 
             OutlinedTextField(
-                value = "",
-                onValueChange = { },
+                value = notes,
+                onValueChange = onNotesChange,
                 placeholder = {
                     Text("Notes")
                 },

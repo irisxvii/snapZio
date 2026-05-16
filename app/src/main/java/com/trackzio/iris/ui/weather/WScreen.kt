@@ -68,6 +68,10 @@ fun WScreen() {
         mutableStateOf(0)
     }
 
+    var notes by remember {
+        mutableStateOf("")
+    }
+
     if (showCameraScreen) {
 
         CameraScreen(
@@ -108,7 +112,11 @@ fun WScreen() {
             },
             imagePath = capturedImagePath,
             originalImageSize = originalImageSize,
-            compressedImageSize = compressedImageSize
+            compressedImageSize = compressedImageSize,
+            notes = notes,
+            onNotesChange = {
+                notes = it
+            }
         )
 
     } else {
