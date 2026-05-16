@@ -20,6 +20,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 
 import com.trackzio.iris.data.remote.CurrentWeather
+import com.trackzio.iris.ui.report.ReportScreen
 
 @Composable
 fun WScreen() {
@@ -41,58 +42,81 @@ fun WScreen() {
         mutableStateOf("")
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF2D3200))
-            .padding(
-                top = 39.dp,
-                start = 16.dp,
-                end = 16.dp,
-                bottom = 16.dp
-            )
-    ) {
+    var showReportScreen by remember {
+        mutableStateOf(false)
+    }
 
-        HeaderCard()
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        SearchSection(
-            city = city,
-            cities = cities,
-            onCityChange = {
-                city = it
-            },
-            onSearchQueryChange = {
-                viewModel.searchCities(it)
-            },
-            onClearCities = {
-                viewModel.clearCities()
-            },
-            onSearchClick = {
-                selectedCity?.let {
-                    searchedCityName = it.name
-                    viewModel.fetchWeather(it)
-                }
-            },
-            onCitySelected = {
-                selectedCity = it
+    if (showReportScreen) {
+        ReportScreen(
+            cityName = searchedCityName,
+            weather = weather!!,
+            onBackClick = {
+                showReportScreen = false
             }
         )
-        if (weather == null) {
-            EmptyWeatherCard()
-        } else {
-            WeatherCard(
-                cityName = searchedCityName,
-                weather = weather!!
+
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFF2D3200))
+                .padding(
+                    top = 39.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                )
+        ) {
+
+            HeaderCard(
+                buttonText = "Reports",
+                onButtonClick = { }
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            SearchSection(
+                city = city,
+                cities = cities,
+                onCityChange = {
+                    city = it
+                },
+                onSearchQueryChange = {
+                    viewModel.searchCities(it)
+                },
+                onClearCities = {
+                    viewModel.clearCities()
+                },
+                onSearchClick = {
+                    selectedCity?.let {
+                        searchedCityName = it.name
+                        viewModel.fetchWeather(it)
+                    }
+                },
+                onCitySelected = {
+                    selectedCity = it
+                }
+            )
+            if (weather == null) {
+                EmptyWeatherCard()
+            } else {
+                WeatherCard(
+                    cityName = searchedCityName,
+                    weather = weather!!,
+                    onCreateReportClick = {
+                        showReportScreen = true
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
-fun HeaderCard() {
-
+fun HeaderCard(
+    buttonText: String,
+    onButtonClick: () -> Unit
+){
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -132,7 +156,7 @@ fun HeaderCard() {
             Spacer(modifier = Modifier.width(12.dp))
 
             Button(
-                onClick = { },
+                onClick = onButtonClick,
                 contentPadding = PaddingValues(
                     horizontal = 12.dp,
                     vertical = 6.dp
@@ -143,7 +167,7 @@ fun HeaderCard() {
                 )
             ) {
                 Text(
-                    text = "Reports",
+                    text = buttonText,
                     fontSize = 12.sp
                 )
             }
@@ -298,7 +322,8 @@ fun EmptyWeatherCard() {
 @Composable
 fun WeatherCard(
     cityName: String,
-    weather: CurrentWeather
+    weather: CurrentWeather,
+    onCreateReportClick: () -> Unit
 ) {
 
     Card(
@@ -424,7 +449,7 @@ fun WeatherCard(
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
-                onClick = { },
+                onClick = onCreateReportClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
