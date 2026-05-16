@@ -24,7 +24,9 @@ fun ReportScreen(
     weather: CurrentWeather,
     onBackClick: () -> Unit,
     onCapturePhotoClick: () -> Unit,
-    imagePath: String?
+    imagePath: String?,
+    originalImageSize: Int,
+    compressedImageSize: Int
 ) {
     Column(
         modifier = Modifier
@@ -51,7 +53,9 @@ fun ReportScreen(
 
         PhotoPreviewCard(
             imagePath = imagePath,
-            onCapturePhotoClick = onCapturePhotoClick
+            onCapturePhotoClick = onCapturePhotoClick,
+            originalImageSize = originalImageSize,
+            compressedImageSize = compressedImageSize
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -83,7 +87,9 @@ fun ReportScreen(
 @Composable
 fun PhotoPreviewCard(
     imagePath: String?,
-    onCapturePhotoClick: () -> Unit
+    onCapturePhotoClick: () -> Unit,
+    originalImageSize: Int,
+    compressedImageSize: Int,
 ) {
 
     Card(
@@ -122,6 +128,20 @@ fun PhotoPreviewCard(
                         color = Color.White
                     )
                 }
+            }
+
+            if (imagePath != null) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text =
+                        "Original: ${originalImageSize} KB",
+                    color = Color.LightGray
+                )
+                Text(
+                    text =
+                        "Compressed: ${compressedImageSize} KB",
+                    color = Color.LightGray
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))

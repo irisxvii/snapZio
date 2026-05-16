@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.trackzio.iris.data.remote.CurrentWeather
 import com.trackzio.iris.ui.camera.CameraScreen
 import com.trackzio.iris.ui.report.ReportScreen
+import com.trackzio.iris.utils.compressImage
 
 @Composable
 fun WScreen() {
@@ -55,6 +56,18 @@ fun WScreen() {
         mutableStateOf<String?>(null)
     }
 
+    var compressedImagePath by remember {
+        mutableStateOf<String?>(null)
+    }
+
+    var originalImageSize by remember {
+        mutableStateOf(0)
+    }
+
+    var compressedImageSize by remember {
+        mutableStateOf(0)
+    }
+
     if (showCameraScreen) {
 
         CameraScreen(
@@ -62,7 +75,21 @@ fun WScreen() {
                 showCameraScreen = false
             },
             onCapture = { imagePath ->
-                capturedImagePath = imagePath
+                val result =
+                    compressImage(imagePath)
+
+                capturedImagePath =
+                    result.compressedFile.absolutePath
+
+                compressedImagePath =
+                    result.compressedFile.absolutePath
+
+                originalImageSize =
+                    result.originalSizeKb
+
+                compressedImageSize =
+                    result.compressedSizeKb
+
                 showCameraScreen = false
             }
         )
@@ -79,7 +106,9 @@ fun WScreen() {
             onCapturePhotoClick = {
                 showCameraScreen = true
             },
-            imagePath = capturedImagePath
+            imagePath = capturedImagePath,
+            originalImageSize = originalImageSize,
+            compressedImageSize = compressedImageSize
         )
 
     } else {
