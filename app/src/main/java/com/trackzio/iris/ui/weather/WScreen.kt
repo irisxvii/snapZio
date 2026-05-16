@@ -327,7 +327,8 @@ fun EmptyWeatherCard() {
 fun WeatherCard(
     cityName: String,
     weather: CurrentWeather,
-    onCreateReportClick: () -> Unit
+    onCreateReportClick: () -> Unit,
+    showReportActions: Boolean = true
 ) {
 
     Card(
@@ -418,57 +419,59 @@ fun WeatherCard(
                 )
             }
 
-            Spacer(modifier = Modifier.height(18.dp))
+            if (showReportActions) {
+                Spacer(modifier = Modifier.height(18.dp))
 
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF4A4A4A)
-                ),
-                shape = RoundedCornerShape(12.dp)
-            ) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF4A4A4A)
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
 
-                Row(
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement =
+                            Arrangement.SpaceBetween
+                    ) {
+
+                        Text(
+                            text = "Report readiness",
+                            color = Color.LightGray,
+                            fontSize = 13.sp,
+                        )
+
+                        Text(
+                            text = "Camera and Room DB enabled",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Button(
+                    onClick = onCreateReportClick,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement =
-                        Arrangement.SpaceBetween
+                        .height(56.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFD8E08B)
+                    ),
+                    shape = RoundedCornerShape(50)
                 ) {
 
                     Text(
-                        text = "Report readiness",
-                        color = Color.LightGray,
-                        fontSize = 13.sp,
-                    )
-
-                    Text(
-                        text = "Camera and Room DB enabled",
-                        color = Color.White,
-                        fontSize = 12.sp,
+                        text = "Create Report",
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Button(
-                onClick = onCreateReportClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFD8E08B)
-                ),
-                shape = RoundedCornerShape(50)
-            ) {
-
-                Text(
-                    text = "Create Report",
-                    color = Color.Black,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
             }
         }
     }

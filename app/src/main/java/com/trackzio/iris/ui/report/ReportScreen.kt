@@ -37,7 +37,8 @@ fun ReportScreen(
         WeatherCard(
             cityName = cityName,
             weather = weather,
-            onCreateReportClick = { }
+            onCreateReportClick = { },
+            showReportActions = false
         )
 
         Spacer(modifier = Modifier.height(16.dp))
