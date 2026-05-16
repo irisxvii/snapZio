@@ -11,12 +11,39 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.LocalLifecycleOwner
+
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.LaunchedEffect
+
 @Composable
 fun CameraScreen(
     onClose: () -> Unit,
     onCapture: () -> Unit
 ) {
+    val context = LocalContext.current
 
+    val permissionLauncher =
+        rememberLauncherForActivityResult(
+            contract =
+                ActivityResultContracts.RequestPermission(),
+            onResult = { }
+        )
+
+    LaunchedEffect(Unit) {
+
+        permissionLauncher.launch(
+            android.Manifest.permission.CAMERA
+        )
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -48,7 +75,50 @@ fun CameraScreen(
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        val context = LocalContext.current
+        val lifecycleOwner = LocalLifecycleOwner.current
+
+        AndroidView(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            factory = {
+                val previewView = PreviewView(context)
+
+                val cameraProviderFuture =
+                    ProcessCameraProvider.getInstance(context)
+
+                cameraProviderFuture.addListener({
+
+                    val cameraProvider =
+                        cameraProviderFuture.get()
+
+                    val preview = Preview.Builder().build()
+
+                    preview.setSurfaceProvider(
+                        previewView.surfaceProvider
+                    )
+
+                    val cameraSelector =
+                        CameraSelector.DEFAULT_BACK_CAMERA
+
+                    try {
+                        cameraProvider.unbindAll()
+                        cameraProvider.bindToLifecycle(
+                            lifecycleOwner,
+                            cameraSelector,
+                            preview
+                        )
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
+                }, ContextCompat.getMainExecutor(context))
+
+                previewView
+            }
+        )
 
         Button(
             onClick = onCapture,
