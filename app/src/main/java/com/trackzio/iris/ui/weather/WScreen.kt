@@ -58,7 +58,10 @@ fun WScreen() {
                 viewModel.clearCities()
             }
         )
-        EmptyWeatherCard()
+        //EmptyWeatherCard()
+        WeatherCard(
+            cityName = "Durham"
+        )
     }
 }
 
@@ -259,6 +262,192 @@ fun EmptyWeatherCard() {
                 color = Color.LightGray,
                 fontSize = 14.sp,
                 lineHeight = 18.sp
+            )
+        }
+    }
+}
+
+@Composable
+fun WeatherCard(
+    cityName: String,
+    //weather: com.trackzio.iris.data.remote.CurrentWeather
+) {
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF3A3A3A)
+        ),
+        shape = RoundedCornerShape(18.dp)
+    ) {
+
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement =
+                    Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
+
+                Column {
+                    Text(
+                        text = cityName,
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Text(
+                        text = "Partly cloudy",
+                        color = Color.LightGray,
+                        fontSize = 14.sp
+                    )
+                }
+
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF9CAB1A)
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+
+                    Text(
+                        text = "10°C",
+                        modifier = Modifier.padding(
+                            horizontal = 18.dp,
+                            vertical = 14.dp
+                        ),
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement =
+                    Arrangement.spacedBy(12.dp)
+            ) {
+
+                WeatherInfoCard(
+                    title = "Humidity",
+                    value = "94%",
+                    accent = Color(0xFF00C853),
+                    modifier = Modifier.weight(1f)
+                )
+
+                WeatherInfoCard(
+                    title = "Wind",
+                    value = "1.82 m/s",
+                    accent = Color(0xFF2196F3),
+                    modifier = Modifier.weight(1f)
+                )
+
+                WeatherInfoCard(
+                    title = "Pressure",
+                    value = "998",
+                    accent = Color(0xFFFF9800),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF4A4A4A)
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement =
+                        Arrangement.SpaceBetween
+                ) {
+
+                    Text(
+                        text = "Report readiness",
+                        color = Color.LightGray,
+                        fontSize = 13.sp,
+                    )
+
+                    Text(
+                        text = "Camera and Room DB enabled",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFD8E08B)
+                ),
+                shape = RoundedCornerShape(50)
+            ) {
+
+                Text(
+                    text = "Create Report",
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun WeatherInfoCard(
+    title: String,
+    value: String,
+    accent: Color,
+    modifier: Modifier = Modifier
+) {
+
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF444444)
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+
+        Column(
+            modifier = Modifier.padding(12.dp)
+        ) {
+
+            Text(
+                text = title,
+                color = Color.LightGray,
+                fontSize = 14.sp
+            )
+
+            Text(
+                text = value,
+                color = accent,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
             )
         }
     }
