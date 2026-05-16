@@ -69,6 +69,8 @@ fun WScreen() {
         ) {
 
             HeaderCard(
+                title = "WeatherSnap",
+                subtitle = "Live weather reports with camera evidence",
                 buttonText = "Reports",
                 onButtonClick = { }
             )
@@ -114,6 +116,8 @@ fun WScreen() {
 
 @Composable
 fun HeaderCard(
+    title: String,
+    subtitle: String,
     buttonText: String,
     onButtonClick: () -> Unit
 ){
@@ -137,7 +141,7 @@ fun HeaderCard(
             ) {
 
                 Text(
-                    text = "WeatherSnap",
+                    text = title,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color(0xFF2D3200)
@@ -146,7 +150,7 @@ fun HeaderCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "Live weather reports with camera evidence",
+                    text = subtitle,
                     color = Color.DarkGray,
                     fontSize = 14.sp,
                     lineHeight = 18.sp

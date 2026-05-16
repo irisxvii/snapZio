@@ -28,6 +28,8 @@ fun ReportScreen(
     ) {
 
         HeaderCard(
+            title = "Create Report",
+            subtitle = "Capture, compress, annotate",
             buttonText = "Back",
             onButtonClick = onBackClick
         )
