@@ -24,6 +24,7 @@ import com.trackzio.iris.ui.camera.CameraScreen
 import com.trackzio.iris.ui.report.ReportScreen
 import com.trackzio.iris.ui.report.SavedReportsScreen
 import com.trackzio.iris.utils.compressImage
+import com.trackzio.iris.utils.getWeatherDescription
 
 import androidx.compose.ui.platform.LocalContext
 import com.trackzio.iris.data.local.WeatherDatabase
@@ -183,7 +184,8 @@ fun WScreen() {
                                 compressedImageSize,
                             notes = notes,
                             timestamp =
-                                System.currentTimeMillis()
+                                System.currentTimeMillis(),
+                            weatherCode = weather!!.weather_code
                         )
 
                     CoroutineScope(Dispatchers.IO)
@@ -512,7 +514,7 @@ fun WeatherCard(
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
-                        text = "Partly cloudy",
+                        text = getWeatherDescription(weather.weather_code),
                         color = Color.LightGray,
                         fontSize = 14.sp
                     )

@@ -17,5 +17,6 @@ data class WeatherReport(
     val originalImageSize: Int,
     val compressedImageSize: Int,
     val notes: String,
-    val timestamp: Long
+    val timestamp: Long,
+    val weatherCode: Int = 0
 )

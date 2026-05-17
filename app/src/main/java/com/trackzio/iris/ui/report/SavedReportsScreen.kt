@@ -19,6 +19,7 @@ import coil.compose.AsyncImage
 import androidx.compose.ui.text.font.FontWeight
 import com.trackzio.iris.data.local.WeatherReport
 import com.trackzio.iris.ui.weather.HeaderCard
+import com.trackzio.iris.utils.getWeatherDescription
 
 import java.io.File
 import java.text.SimpleDateFormat
@@ -173,7 +174,7 @@ fun SavedReportCard(
                     )
 
                     Text(
-                        text = "Partly cloudy",
+                        text = getWeatherDescription(report.weatherCode),
                         color = Color.LightGray,
                         fontSize = 14.sp
                     )

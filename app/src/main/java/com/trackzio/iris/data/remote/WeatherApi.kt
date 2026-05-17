@@ -17,6 +17,6 @@ interface WeatherApi {
         @Query("longitude") longitude: Double,
         @Query("current")
         current: String =
-            "temperature_2m,relative_humidity_2m,wind_speed_10m,pressure_msl"
+            "temperature_2m,relative_humidity_2m,wind_speed_10m,pressure_msl,weather_code"
     ): WeatherResponse
 }
