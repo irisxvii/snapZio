@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
-
+import androidx.compose.ui.text.font.FontWeight
 import com.trackzio.iris.data.local.WeatherReport
 import com.trackzio.iris.ui.weather.HeaderCard
 
@@ -151,70 +151,130 @@ fun SavedReportCard(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = report.cityName,
-                color = Color.White,
-                fontSize = 22.sp
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement =
+                    Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
 
-            Spacer(modifier = Modifier.height(12.dp))
+                Column {
+                    Text(
+                        text = report.cityName,
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
-            Text(
-                text =
-                    "Temperature: ${report.temperature.toInt()}°C",
-                color = Color.White
-            )
+                    Text(
+                        text = "Partly cloudy",
+                        color = Color.LightGray,
+                        fontSize = 14.sp
+                    )
 
-            Text(
-                text =
-                    "Humidity: ${report.humidity}%",
-                color = Color.White
-            )
+                    Text(
+                        text = formattedDate,
+                        color = Color.Gray,
+                        fontSize = 12.sp
+                    )
+                }
 
-            Text(
-                text =
-                    "Wind: ${report.windSpeed} m/s",
-                color = Color.White
-            )
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF8C9B00)
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
 
-            Text(
-                text =
-                    "Pressure: ${report.pressure}",
-                color = Color.White
-            )
+                    Text(
+                        text =
+                            "${report.temperature.toInt()}°C",
 
-            Spacer(modifier = Modifier.height(12.dp))
+                        modifier = Modifier.padding(
+                            horizontal = 18.dp,
+                            vertical = 14.dp
+                        ),
 
-            Text(
-                text = "Notes",
-                color = Color.LightGray
-            )
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement =
+                    Arrangement.spacedBy(12.dp)
+            ) {
+
+                SizeInfoCard(
+                    title = "Original",
+                    value =
+                        "${report.originalImageSize} KB",
+
+                    accent = Color(0xFFFF9800),
+
+                    modifier = Modifier.weight(1f)
+                )
+
+                SizeInfoCard(
+                    title = "Compressed",
+                    value =
+                        "${report.compressedImageSize} KB",
+
+                    accent = Color(0xFF00BCD4),
+
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
 
             Text(
                 text = report.notes,
-                color = Color.White
+                color = Color.White,
+                fontSize = 14.sp
             )
+        }
+    }
+}
 
-            Spacer(modifier = Modifier.height(12.dp))
+@Composable
+fun SizeInfoCard(
+    title: String,
+    value: String,
+    accent: Color,
+    modifier: Modifier = Modifier
+) {
+
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF444444)
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+
+        Column(
+            modifier = Modifier.padding(12.dp)
+        ) {
 
             Text(
-                text =
-                    "Original: ${report.originalImageSize} KB",
-                color = Color.LightGray
+                text = title,
+                color = Color.LightGray,
+                fontSize = 13.sp
             )
 
-            Text(
-                text =
-                    "Compressed: ${report.compressedImageSize} KB",
-                color = Color.LightGray
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = formattedDate,
-                color = Color.Gray,
-                fontSize = 12.sp
+                text = value,
+                color = accent,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
             )
         }
     }
