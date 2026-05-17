@@ -35,6 +35,11 @@ fun SavedReportsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF2D3200))
+            .padding(
+                top = 39.dp,
+                start = 16.dp,
+                end = 16.dp
+            )
     ) {
 
         HeaderCard(
@@ -44,13 +49,15 @@ fun SavedReportsScreen(
             onButtonClick = onBackClick
         )
 
+        Spacer(modifier = Modifier.height(20.dp))
+
         if (reports.isEmpty()) {
             EmptyReportsState()
         } else {
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(bottom = 16.dp),
                 verticalArrangement =
                     Arrangement.spacedBy(16.dp)
             ) {
@@ -69,8 +76,7 @@ fun EmptyReportsState() {
 
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF3A3A3A)
         ),
