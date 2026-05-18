@@ -11,8 +11,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-import com.trackzio.iris.ui.weather.HeaderCard
-import com.trackzio.iris.ui.weather.WeatherCard
+import com.trackzio.iris.ui.weather.components.HeaderCard
+import com.trackzio.iris.ui.weather.components.WeatherCard
 import com.trackzio.iris.data.remote.CurrentWeather
 
 import coil.compose.AsyncImage

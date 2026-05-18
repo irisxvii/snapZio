@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import androidx.compose.ui.text.font.FontWeight
 import com.trackzio.iris.data.local.WeatherReport
-import com.trackzio.iris.ui.weather.HeaderCard
+import com.trackzio.iris.ui.weather.components.HeaderCard
 import com.trackzio.iris.utils.getWeatherDescription
 
 import java.io.File
