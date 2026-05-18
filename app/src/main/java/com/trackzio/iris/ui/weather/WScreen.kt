@@ -27,14 +27,7 @@ import com.trackzio.iris.ui.weather.components.*
 import com.trackzio.iris.utils.compressImage
 import com.trackzio.iris.utils.getWeatherDescription
 
-import androidx.compose.ui.platform.LocalContext
-import com.trackzio.iris.data.local.WeatherDatabase
-
 import com.trackzio.iris.data.local.WeatherReport
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @Composable
 fun WScreen() {
@@ -84,32 +77,11 @@ fun WScreen() {
         mutableStateOf("")
     }
 
-    val context = LocalContext.current
-
-    val database = remember {
-        WeatherDatabase.getDatabase(context)
-    }
-
     var showSavedReportsScreen by remember {
         mutableStateOf(false)
     }
 
-    var savedReports by remember {
-        mutableStateOf<List<WeatherReport>>(emptyList())
-    }
-
-    fun loadReports() {
-        CoroutineScope(Dispatchers.IO)
-            .launch {
-                val reports =
-                    database
-                        .reportDao()
-                        .getAllReports()
-                withContext(Dispatchers.Main) {
-                    savedReports = reports
-                }
-            }
-    }
+    val savedReports by viewModel.savedReports.collectAsState()
 
     if (showCameraScreen) {
         CameraScreen(
@@ -189,16 +161,9 @@ fun WScreen() {
                             weatherCode = weather!!.weather_code
                         )
 
-                    CoroutineScope(Dispatchers.IO)
-                        .launch {
-                            database
-                                .reportDao()
-                                .insertReport(report)
-                            loadReports()
-                        }
+                    viewModel.saveReport(report)
 
                     showReportScreen = false
-                    loadReports()
                     showSavedReportsScreen = true
                 }
             }
@@ -222,7 +187,7 @@ fun WScreen() {
                 subtitle = "Live weather reports with camera evidence",
                 buttonText = "Reports",
                 onButtonClick = {
-                    loadReports()
+                    viewModel.loadReports()
                     showSavedReportsScreen = true
                 }
             )
