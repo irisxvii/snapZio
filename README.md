@@ -1,11 +1,17 @@
-### Kindly Review After May 18 (If Possible)
+# WeatherSnap
 
-* I had earlier requested a slight extension since I have my final lab exam on May 18 and needed time to prepare while also completing the project properly.
-* Around 3/4th of the project has been completed, and all the core functionalities are currently working properly.
-* Remaining work mainly includes UI updates to match the design, proper cross-checking, README updates, and minor refactoring.
-* Since I haven’t received a reply yet, I’m submitting the project within the deadline itself.
-* The project will continue to be improved and polished after my lab exams are over.
-* It would be great if the submission could be reviewed after May 18, if possible.
+A modern Android application built with Kotlin and Jetpack Compose that allows users to capture live weather reports with camera evidence. It uses Retrofit to fetch real-time weather data and Room database to store reports locally.
 
+## Setup & Run Steps
 
-https://drive.google.com/drive/u/1/folders/15BLv-gY7w7YpobKp-dPjZn06-mN6WDaL
+1. **Open in Android Studio:**
+   Open Android Studio, select `File > Open...`, and choose the `SnapZio` project folder.
+   
+2. **Sync Gradle:**
+   Let Android Studio download and sync all required dependencies. Ensure you are using JDK 17.
+
+3. **Run the App:**
+   - Connect an Android device or start an emulator
+   - Click the **Run** button in Android Studio
+
+* Drive Folder: https://drive.google.com/drive/u/1/folders/15BLv-gY7w7YpobKp-dPjZn06-mN6WDaL
