@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -14,9 +13,6 @@ import androidx.compose.ui.unit.sp
 import com.trackzio.iris.ui.weather.components.HeaderCard
 import com.trackzio.iris.ui.weather.components.WeatherCard
 import com.trackzio.iris.data.remote.CurrentWeather
-
-import coil.compose.AsyncImage
-import java.io.File
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
