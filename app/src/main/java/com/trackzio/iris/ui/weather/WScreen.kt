@@ -2,30 +2,21 @@ package com.trackzio.iris.ui.weather
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.font.FontWeight
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.collectAsState
 
-import androidx.compose.foundation.clickable
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 
-import com.trackzio.iris.data.remote.CurrentWeather
 import com.trackzio.iris.ui.camera.CameraScreen
 import com.trackzio.iris.ui.report.ReportScreen
 import com.trackzio.iris.ui.report.SavedReportsScreen
 import com.trackzio.iris.ui.weather.components.*
 import com.trackzio.iris.utils.compressImage
-import com.trackzio.iris.utils.getWeatherDescription
 
 import com.trackzio.iris.data.local.WeatherReport
 
