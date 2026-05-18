@@ -20,6 +20,7 @@ import java.io.File
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import com.trackzio.iris.ui.report.components.*
 
 @Composable
 fun ReportScreen(
@@ -89,132 +90,6 @@ fun ReportScreen(
                 text = "Save Report",
                 color = Color.Black,
                 fontSize = 14.sp
-            )
-        }
-    }
-}
-
-@Composable
-fun PhotoPreviewCard(
-    imagePath: String?,
-    onCapturePhotoClick: () -> Unit,
-    originalImageSize: Int,
-    compressedImageSize: Int,
-) {
-
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF3A3A3A)
-        ),
-        shape = RoundedCornerShape(16.dp)
-    ) {
-
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
-                    .background(
-                        Color(0xFF556B2F),
-                        RoundedCornerShape(12.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-
-                if (imagePath != null) {
-                    AsyncImage(
-                        model = File(imagePath),
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                } else {
-
-                    Text(
-                        text = "Photo preview",
-                        color = Color.White
-                    )
-                }
-            }
-
-            if (imagePath != null) {
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    text =
-                        "Original: ${originalImageSize} KB",
-                    color = Color.LightGray
-                )
-                Text(
-                    text =
-                        "Compressed: ${compressedImageSize} KB",
-                    color = Color.LightGray
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = onCapturePhotoClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFD8E08B)
-                ),
-                shape = RoundedCornerShape(50)
-            ) {
-
-                Text(
-                    text =
-                        if (imagePath != null)
-                            "Retake Photo"
-                        else
-                            "Capture Photo",
-
-                    color = Color.Black
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun NotesSection(
-    notes: String,
-    onNotesChange: (String) -> Unit
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF3A3A3A)
-        ),
-        shape = RoundedCornerShape(16.dp)
-    ) {
-
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-
-            Text(
-                text = "Field Notes",
-                color = Color.White,
-                fontSize = 16.sp
-            )
-
-            Spacer(modifier = Modifier.height(5.dp))
-
-            OutlinedTextField(
-                value = notes,
-                onValueChange = onNotesChange,
-                placeholder = {
-                    Text("Notes")
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp)
             )
         }
     }
