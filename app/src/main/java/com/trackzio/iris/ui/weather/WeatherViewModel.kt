@@ -1,21 +1,24 @@
 package com.trackzio.iris.ui.weather
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trackzio.iris.data.local.WeatherDatabase
 import com.trackzio.iris.data.local.WeatherReport
 import com.trackzio.iris.data.remote.City
 import com.trackzio.iris.data.remote.CurrentWeather
-import com.trackzio.iris.data.remote.RetrofitInstance
+import com.trackzio.iris.data.remote.WeatherApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WeatherViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val database = WeatherDatabase.getDatabase(application)
+@HiltViewModel
+class WeatherViewModel @Inject constructor(
+    private val database: WeatherDatabase,
+    private val api: WeatherApi
+) : ViewModel() {
 
     private val _cities = MutableStateFlow<List<City>>(emptyList())
     val cities: StateFlow<List<City>> = _cities
@@ -52,7 +55,7 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
 
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.api.searchCities(query)
+                val response = api.searchCities(query)
                 _cities.value = response.results ?: emptyList()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -63,7 +66,7 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
     fun fetchWeather(city: City) {
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.api.getWeather(
+                val response = api.getWeather(
                     latitude = city.latitude,
                     longitude = city.longitude
                 )

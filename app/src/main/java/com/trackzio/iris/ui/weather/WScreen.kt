@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.collectAsState
 
 import androidx.compose.ui.text.input.TextFieldValue
@@ -22,7 +22,7 @@ import com.trackzio.iris.data.local.WeatherReport
 
 @Composable
 fun WScreen() {
-    val viewModel: WeatherViewModel = viewModel()
+    val viewModel: WeatherViewModel = hiltViewModel()
 
     val cities by viewModel.cities.collectAsState()
 
