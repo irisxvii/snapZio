@@ -24,5 +24,3 @@ A modern Android application built with Kotlin and Jetpack Compose that allows u
 
 3. Connect an Android device or start an emulator
 4. Click the Run button in Android Studio
-
-Drive Folder: https://drive.google.com/drive/u/1/folders/15BLv-gY7w7YpobKp-dPjZn06-mN6WDaL
